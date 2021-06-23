@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Wikipedia from "../apis/wikipedia";
 
 const Search = () => {
   const [term, setTerm] = useState("");
+  useEffect(() => {
+    (async () => {
+      const response = await Wikipedia.get("", {
+        params: {
+          srsearch: term,
+        },
+      });
+    })();
+  }, [term]);
   const onInputChange = (e) => {
     setTerm(e.target.value);
   };
