@@ -7,16 +7,24 @@ const Search = () => {
   const onInputChange = (e) => {
     setTerm(e.target.value);
   };
+  const onInputClick = () => {
+    setTerm("");
+  };
   useEffect(() => {
-    term.length >= 1 &&
-      (async () => {
-        const { data } = await Wikipedia.get("", {
-          params: {
-            srsearch: term,
-          },
-        });
-        setResults(data.query.search);
-      })();
+    const timeoutId = setTimeout(() => {
+      term.length >= 1 &&
+        (async () => {
+          const { data } = await Wikipedia.get("", {
+            params: {
+              srsearch: term,
+            },
+          });
+          setResults(data.query.search);
+        })();
+    }, 750);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [term]);
   const renderedResults = results.map((result, index) => {
     return (
@@ -43,6 +51,7 @@ const Search = () => {
         <div className="field">
           <label>Enter Search Term</label>
           <input
+            onClick={onInputClick}
             onChange={(e) => onInputChange(e)}
             className="input"
             type="text"
