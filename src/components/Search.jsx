@@ -3,18 +3,22 @@ import Wikipedia from "../apis/wikipedia";
 
 const Search = () => {
   const [term, setTerm] = useState("");
+  const [results, setResults] = useState([]);
   useEffect(() => {
-    (async () => {
-      const response = await Wikipedia.get("", {
-        params: {
-          srsearch: term,
-        },
-      });
-    })();
+    term !== "" &&
+      (async () => {
+        const { data } = await Wikipedia.get("", {
+          params: {
+            srsearch: term,
+          },
+        });
+        setResults(data.query.search);
+      })();
   }, [term]);
   const onInputChange = (e) => {
     setTerm(e.target.value);
   };
+  console.log(results);
   return (
     <div>
       <div className="ui form">
