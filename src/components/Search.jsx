@@ -4,6 +4,9 @@ import Wikipedia from "../apis/wikipedia";
 const Search = () => {
   const [term, setTerm] = useState("");
   const [results, setResults] = useState([]);
+  const onInputChange = (e) => {
+    setTerm(e.target.value);
+  };
   useEffect(() => {
     term !== "" &&
       (async () => {
@@ -15,9 +18,16 @@ const Search = () => {
         setResults(data.query.search);
       })();
   }, [term]);
-  const onInputChange = (e) => {
-    setTerm(e.target.value);
-  };
+  const renderedResults = results.map((result, index) => {
+    return (
+      <div key={result.pageid} className="item">
+        <div className="content">
+          <div className="header">{result.title}</div>
+          {result.snippet}
+        </div>
+      </div>
+    );
+  });
   console.log(results);
   return (
     <div>
@@ -32,6 +42,7 @@ const Search = () => {
           />
         </div>
       </div>
+      <div className="ui celled list">{renderedResults}</div>
     </div>
   );
 };
