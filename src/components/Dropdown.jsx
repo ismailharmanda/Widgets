@@ -5,8 +5,8 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   useEffect(() => {
     document.body.addEventListener(
       "click",
-      () => {
-        setOpen(false);
+      (event) => {
+        event.target.id === "body" && setOpen(false);
       },
       { capture: true }
     );
