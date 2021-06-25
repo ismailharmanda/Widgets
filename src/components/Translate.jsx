@@ -18,8 +18,18 @@ const options = [
 
 const Translate = () => {
   const [language, setLanguage] = useState(options[2]);
+  const [text, setText] = useState("");
+  const onInputChange = (e) => {
+    setText(e.target.value);
+  };
   return (
     <div>
+      <div className="ui form">
+        <div className="field">
+          <label>Enter Text</label>
+          <input value={text} onChange={(e) => onInputChange(e)} />
+        </div>
+      </div>
       <Dropdown
         label="Select a Language"
         selected={language}
